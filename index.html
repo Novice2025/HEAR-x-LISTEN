@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hear x Listen – NEXTATION Futuristic Lesson</title>
+  <style>
+    :root{
+      /* Copiado/alinado com o guia de cores NEXTATION */
+      --bg-main:#02030b;
+      --bg-gradient:radial-gradient(circle at top,#1c1f3b 0%,#050716 45%,#02030b 100%);
+      --card-bg:rgba(15,18,40,0.92);
+      --card-soft-bg:rgba(18,21,50,0.88);
+      --accent-cyan:#4ef2ff;
+      --accent-pink:#ff2f92;
+      --accent-green:#4dff9b;
+      --accent-yellow:#ffe25f;
+      --accent-purple:#aa5dff;
+      --muted:rgba(255,255,255,0.65);
+      --border-glow:rgba(120,120,255,0.45);
+      --shadow-strong:0 0 36px rgba(130,80,255,0.6);
+      --shadow-soft:0 0 20px rgba(0,0,0,0.65);
+      --radius-lg:22px;
+      --radius-md:16px;
+      --radius-sm:10px;
+      --transition-fast:0.18s ease-out;
+      --transition-med:0.28s ease-out;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background:var(--bg-gradient);
+      color:#fff;
+      min-height:100vh;
+      padding:24px;
+      display:flex;
+      justify-content:center;
+    }
+    .app{
+      max-width:1100px;
+      width:100%;
+    }
+    .neon-header{
+      position:relative;
+      padding:18px 22px 14px;
+      border-radius:var(--radius-lg);
+      background:rgba(3,5,20,0.9);
+      box-shadow:var(--shadow-soft);
+      border:1px solid var(--border-glow);
+      margin-bottom:20px;
+      overflow:hidden;
+    }
+    .neon-header::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background:linear-gradient(90deg,#00f5ff,#ff2f92,#ffe25f,#4dff9b);
+      opacity:0.5;
+      mix-blend-mode:screen;
+      pointer-events:none;
+      z-index:-1;
+    }
+    .header-main{
+      display:flex;
+      align-items:center;
+      gap:18px;
+    }
+    .teacher-orb{
+      width:64px;
+      height:64px;
+      border-radius:50%;
+      background:radial-gradient(circle,#ffffff 0%,#00fff0 35%,#ff2f92 70%,#02030b 100%);
+      box-shadow:0 0 24px rgba(0,255,255,0.7),0 0 32px rgba(255,0,160,0.55);
+      flex-shrink:0;
+    }
+    .brand-title{
+      font-size:1.4rem;
+      background:linear-gradient(90deg,#4ef2ff,#ff2f92);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      font-weight:700;
+      letter-spacing:0.06em;
+      text-transform:uppercase;
+    }
+    .brand-sub{
+      color:var(--muted);
+      font-size:0.9rem;
+      margin-top:2px;
+    }
+    .lesson-title{
+      margin-top:10px;
+      font-size:1.25rem;
+      color:var(--accent-cyan);
+      text-shadow:0 0 12px rgba(78,242,255,0.5);
+    }
+    .controls-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:10px;
+      font-size:0.9rem;
+    }
+    .small-btn{
+      padding:6px 12px;
+      border-radius:999px;
+      border:1px dashed rgba(255,255,255,0.35);
+      background:transparent;
+      color:#fff;
+      cursor:pointer;
+      font-size:0.8rem;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      transition:transform var(--transition-fast),box-shadow var(--transition-fast),border-color var(--transition-fast),background var(--transition-fast);
+    }
+    .small-btn:hover{
+      transform:scale(1.03);
+      border-color:var(--accent-cyan);
+      box-shadow:0 0 16px rgba(78,242,255,0.5);
+      background:rgba(4,10,40,0.9);
+    }
+
+    /* Tabs */
+    .tabs{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin:18px 0 16px;
+    }
+    .tab{
+      position:relative;
+      padding:9px 14px;
+      border-radius:var(--radius-md);
+      background:radial-gradient(circle at top,rgba(255,255,255,0.09),rgba(7,10,28,0.96));
+      border:1px solid rgba(130,140,200,0.4);
+      color:#fff;
+      font-size:0.9rem;
+      cursor:pointer;
+      transition:all var(--transition-fast);
+    }
+    .tab span.icon{margin-right:6px;}
+    .tab:hover{
+      border-color:rgba(120,120,255,0.6);
+      box-shadow:0 0 20px rgba(120,120,255,0.35);
+    }
+    .tab.active{
+      background:radial-gradient(circle at top,rgba(255,255,255,0.15),rgba(21,13,51,0.98));
+      border-color:rgba(103,255,196,0.9);
+      box-shadow:0 0 24px rgba(79,255,204,0.55);
+    }
+    .tab.completed::after{
+      content:"✓";
+      position:absolute;
+      top:-6px;
+      right:-6px;
+      width:18px;
+      height:18px;
+      border-radius:50%;
+      background:#4dff9b;
+      color:#02030b;
+      font-size:0.7rem;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 0 10px rgba(77,255,179,0.9);
+    }
+
+    /* Card */
+    .card{
+      position:relative;
+      border-radius:var(--radius-lg);
+      background:linear-gradient(135deg,rgba(13,16,40,0.98),rgba(6,8,26,0.98));
+      padding:20px 22px 22px;
+      border:1px solid rgba(120,120,255,0.32);
+      box-shadow:var(--shadow-soft);
+      overflow:hidden;
+      min-height:260px;
+    }
+    .card::before{
+      content:"";
+      position:absolute;
+      top:-40%;
+      left:-20%;
+      width:280px;
+      height:280px;
+      background:radial-gradient(circle at top left,rgba(87,57,255,0.35),transparent 58%);
+      pointer-events:none;
+    }
+    .card-inner{
+      position:relative;
+      z-index:1;
+    }
+    h2.section-title{
+      font-size:1.1rem;
+      color:var(--accent-cyan);
+      margin-bottom:4px;
+    }
+    .section-sub{
+      font-size:0.9rem;
+      color:var(--muted);
+      margin-bottom:12px;
+      line-height:1.6;
+    }
+    .highlight-expression{
+      display:inline-flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:linear-gradient(120deg,#ffe25f,#ff2f92,#4ef2ff);
+      color:#050618;
+      font-weight:700;
+      margin:8px 0 12px;
+    }
+    .pill-tag{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:5px 10px;
+      border-radius:999px;
+      background:linear-gradient(90deg,rgba(0,0,0,0.75),rgba(28,32,80,0.95));
+      border:1px solid rgba(78,242,255,0.6);
+      font-size:0.8rem;
+      color:#fff;
+    }
+    .play-btn{
+      padding:4px 10px;
+      border-radius:999px;
+      border:1px dashed rgba(255,255,255,0.35);
+      background:transparent;
+      color:#fff;
+      font-size:0.75rem;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:5px;
+      margin-left:6px;
+      transition:all var(--transition-fast);
+    }
+    .play-btn:hover{
+      border-color:var(--accent-cyan);
+      box-shadow:0 0 14px rgba(78,242,255,0.5);
+      transform:scale(1.03);
+    }
+
+    .two-cols{
+      display:grid;
+      grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);
+      gap:18px;
+      margin-top:12px;
+    }
+    .sub-block{
+      background:var(--card-soft-bg);
+      border-radius:var(--radius-md);
+      padding:12px 14px;
+      border:1px solid rgba(178,75,243,0.45);
+      box-shadow:0 0 18px rgba(0,0,0,0.85);
+      font-size:0.9rem;
+      line-height:1.6;
+    }
+    .sub-title{
+      font-weight:600;
+      color:var(--accent-yellow);
+      margin-bottom:6px;
+    }
+    .bad{
+      color:#ff8fa3;
+      font-weight:600;
+    }
+    .good{
+      color:#4dff9b;
+      font-weight:600;
+    }
+    .example-line{
+      margin-bottom:4px;
+    }
+    .example-en{
+      color:#fff;
+    }
+    .example-pt{
+      color:var(--muted);
+      font-size:0.86rem;
+    }
+    .label{
+      font-size:0.75rem;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      color:var(--muted);
+      margin-bottom:4px;
+    }
+
+    /* Situações cards */
+    .situations-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:14px;
+      margin-top:10px;
+    }
+    .situation-card{
+      background:radial-gradient(circle at top,rgba(255,255,255,0.06),rgba(3,5,24,0.96));
+      border-radius:var(--radius-md);
+      border:1px solid rgba(178,75,243,0.45);
+      padding:10px 12px;
+      box-shadow:0 0 18px rgba(0,0,0,0.85);
+      font-size:0.9rem;
+      line-height:1.5;
+      transition:border-color var(--transition-fast),box-shadow var(--transition-fast),transform var(--transition-fast);
+      cursor:pointer;
+    }
+    .situation-card:hover{
+      border-color:rgba(255,160,255,0.9);
+      box-shadow:0 0 20px rgba(255,160,255,0.9);
+      transform:translateY(-2px);
+    }
+    .sit-context{
+      color:var(--muted);
+      font-size:0.8rem;
+      margin-top:3px;
+    }
+
+    /* Write tab */
+    .write-prompt{
+      font-size:0.95rem;
+      margin-bottom:8px;
+    }
+    .write-prompt strong{
+      border-bottom:2px solid var(--accent-pink);
+    }
+    textarea{
+      width:100%;
+      min-height:110px;
+      background:rgba(2,6,32,0.95);
+      border-radius:var(--radius-md);
+      border:1px solid rgba(178,75,243,0.45);
+      color:#fff;
+      padding:10px 12px;
+      resize:vertical;
+      font-family:inherit;
+      font-size:0.9rem;
+      line-height:1.6;
+      outline:none;
+      transition:border-color var(--transition-fast),box-shadow var(--transition-fast);
+    }
+    textarea::placeholder{
+      color:rgba(255,255,255,0.3);
+    }
+    textarea:focus{
+      border-color:rgba(178,75,243,0.8);
+      box-shadow:0 0 14px rgba(178,75,243,0.8);
+    }
+    .char-counter{
+      text-align:right;
+      font-size:0.75rem;
+      color:rgba(255,255,255,0.5);
+      margin-top:4px;
+    }
+
+    /* Practice tab */
+    .practice-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      align-items:flex-start;
+      margin-top:8px;
+      font-size:0.9rem;
+    }
+    .record-btn{
+      padding:10px 18px;
+      border-radius:999px;
+      border:none;
+      cursor:pointer;
+      color:#fff;
+      font-weight:600;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:linear-gradient(135deg,#ff2f2f,#ff7b7b);
+      transition:transform var(--transition-fast),box-shadow var(--transition-fast),background var(--transition-fast);
+      box-shadow:0 0 18px rgba(255,47,47,0.8);
+    }
+    .record-btn.recording{
+      background:linear-gradient(135deg,#ff0000,#ff4444);
+      animation:pulse 1s infinite;
+    }
+    @keyframes pulse{
+      0%{transform:scale(1);}
+      50%{transform:scale(1.05);}
+      100%{transform:scale(1);}
+    }
+    .audio-wrapper{
+      flex:1;
+      min-width:220px;
+      background:rgba(5,10,32,0.92);
+      border-radius:var(--radius-md);
+      border:1px solid rgba(78,242,255,0.45);
+      padding:10px 12px;
+      box-shadow:0 0 16px rgba(0,0,0,0.8);
+    }
+    .no-audio{
+      border:1px dashed rgba(255,255,255,0.35);
+      color:rgba(255,255,255,0.75);
+      padding:6px 8px;
+      border-radius:var(--radius-sm);
+      font-size:0.85rem;
+    }
+    .delete-btn{
+      margin-top:6px;
+      padding:4px 8px;
+      border-radius:var(--radius-sm);
+      border:none;
+      background:#c62828;
+      color:#fff;
+      font-size:0.8rem;
+      cursor:pointer;
+      transition:background var(--transition-fast),transform var(--transition-fast);
+    }
+    .delete-btn:hover{
+      background:#e53935;
+      transform:translateY(-1px);
+    }
+
+    /* Footer / navigation */
+    .footer-nav{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:14px;
+    }
+    .primary-btn{
+      padding:9px 18px;
+      border-radius:999px;
+      border:none;
+      background:linear-gradient(135deg,#ff2f92,#f89b29,#4ef2ff);
+      color:#050618;
+      font-weight:600;
+      cursor:pointer;
+      box-shadow:0 0 25px rgba(255,47,146,0.9);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      transition:transform var(--transition-fast),box-shadow var(--transition-fast);
+    }
+    .primary-btn:hover{
+      transform:scale(1.03);
+      box-shadow:0 0 32px rgba(255,47,146,1);
+    }
+    .secondary-btn{
+      padding:8px 14px;
+      border-radius:999px;
+      border:none;
+      background:linear-gradient(135deg,#191d3b,#13162b);
+      color:rgba(255,255,255,0.85);
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      transition:transform var(--transition-fast),box-shadow var(--transition-fast);
+    }
+    .secondary-btn:hover{
+      transform:scale(1.02);
+      box-shadow:0 0 18px rgba(0,0,0,0.7);
+    }
+    .export-bar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:6px;
+      font-size:0.8rem;
+    }
+    .footer-meta{
+      margin-top:14px;
+      padding-top:10px;
+      border-top:1px solid rgba(255,255,255,0.12);
+      font-size:0.8rem;
+      color:rgba(255,255,255,0.55);
+    }
+    .footer-meta span.brand{
+      color:#4ef2ff;
+    }
+
+    /* Print-only content (PDF) */
+    @media print{
+      body{
+        background:#fff;
+        padding:0;
+      }
+      .neon-header,
+      .tabs,
+      .controls-row,
+      .footer-nav,
+      .footer-meta,
+      .export-bar{
+        display:none !important;
+      }
+      .card{
+        box-shadow:none;
+        border:1px solid #ccc;
+        border-radius:0;
+      }
+      .card::before{display:none;}
+      .card-inner{
+        color:#000;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="neon-header">
+    <div class="header-main">
+      <div class="teacher-orb"></div>
+      <div>
+        <div class="brand-title">Daby Blockchain Method</div>
+        <div class="brand-sub">
+          Mixed lesson em inglês + português – entendendo de vez HEAR x LISTEN. 🎧
+        </div>
+        <div class="lesson-title">
+          HEAR x LISTEN – “Ouvir” não é tudo igual! 🧠
+        </div>
+      </div>
+    </div>
+    <div class="controls-row">
+      <button class="small-btn" onclick="copyToSpreadsheet()">
+        📋 Copiar conteúdo para planilha
+      </button>
+      <button class="small-btn" onclick="window.print()">
+        📄 Exportar em PDF (somente a lição)
+      </button>
+    </div>
+  </header>
+
+  <!-- Tabs -->
+  <nav class="tabs">
+    <button class="tab active" data-tab="overview" onclick="showTab('overview')">
+      <span class="icon">💡</span>Visão geral
+    </button>
+    <button class="tab" data-tab="why" onclick="showTab('why')">
+      <span class="icon">🧠</span>Hear x Listen na cabeça do brasileiro
+    </button>
+    <button class="tab" data-tab="patterns" onclick="showTab('patterns')">
+      <span class="icon">🧩</span>Regras simples
+    </button>
+    <button class="tab" data-tab="situations" onclick="showTab('situations')">
+      <span class="icon">🎬</span>Situações reais
+    </button>
+    <button class="tab" data-tab="write" onclick="showTab('write')">
+      <span class="icon">✍️</span>Escreva & traduza
+    </button>
+    <button class="tab" data-tab="practice" onclick="showTab('practice')">
+      <span class="icon">🎙️</span>Prática de fala
+    </button>
+  </nav>
+
+  <!-- MAIN CARD -->
+  <main class="card">
+    <!-- OVERVIEW -->
+    <div class="card-inner" id="tab-overview">
+      <h2 class="section-title">1. Visão geral – por que HEAR x LISTEN confunde tanto? 💡</h2>
+      <p class="section-sub">
+        Em português, usamos “ouvir” e “escutar” quase como sinônimos.  
+        Em inglês, <strong>hear</strong> e <strong>listen</strong> não são sinônimos: um é mais “automático”, outro é “intencional”.
+      </p>
+
+      <div class="highlight-expression">
+        HEAR = perceber som sem tentar • LISTEN = prestar atenção, focar
+      </div>
+
+      <div class="pill-tag">
+        Pronúncia básica:
+        <button class="play-btn" onclick="speak('hear, listen')">
+          🔊 hear / listen
+        </button>
+      </div>
+
+      <div class="two-cols" style="margin-top:16px;">
+        <div class="sub-block">
+          <div class="sub-title">Em português (como a gente pensa) 🇧🇷</div>
+          <p class="example-line">
+            👉 “Eu não te ouvi.” (pode ser falta de atenção ou barulho)
+          </p>
+          <p class="example-line">
+            👉 “Ouvi um barulho.” (não foi intencional)
+          </p>
+          <p class="example-line">
+            👉 “Estou ouvindo você.” (atenção na pessoa)
+          </p>
+          <p style="margin-top:6px;">
+            O cérebro brasileiro quer usar <strong>hear</strong> e <strong>listen</strong como se fossem um verbo só: “ouvir”.
+          </p>
+        </div>
+
+        <div class="sub-block">
+          <div class="sub-title">Em inglês (como realmente funciona) 🇺🇸</div>
+          <p class="example-line">
+            🎯 <span class="good">HEAR</span> = o som chega até você, sem esforço.  
+            <span class="example-pt">“Eu ouvi um barulho.” → I <strong>heard</strong> a noise.</span>
+          </p>
+          <p class="example-line">
+            🎯 <span class="good">LISTEN</span> = você escolhe prestar atenção.  
+            <span class="example-pt">“Escute isso!” → <strong>Listen</strong> to this!</span>
+          </p>
+          <p style="margin-top:6px;">
+            Então, ouvir sem querer = <strong>hear</strong>.  
+            Ouvir com foco, com intenção = <strong>listen</strong>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHY TAB -->
+    <div class="card-inner" id="tab-why" style="display:none;">
+      <h2 class="section-title">2. O que o brasileiro faz de errado na prática 🧠</h2>
+      <p class="section-sub">
+        Vamos ver <strong>erros típicos</strong> e como arrumar. Vou misturar inglês + português para entrar na sua cabeça. 😉
+      </p>
+
+      <div class="sub-block">
+        <div class="sub-title">2.1. “Listen” precisa de foco (e normalmente de “to”) 🎯</div>
+        <p class="example-line">
+          ❌ 🇧🇷 Brasileiro pensa: “I’m listening music.”  
+        </p>
+        <p class="example-line">
+          ✅ 🇺🇸 Correto: <span class="good">I’m listening <u>to</u> music.</span>
+        </p>
+        <p style="margin-top:4px;">
+          Regra mental: <strong>LISTEN + TO + coisa/pessoa</strong>  
+          👉 <span class="example-en">Listen to me.</span> = Me escuta.  
+          👉 <span class="example-en">Listen to the teacher.</span> = Escuta o professor.
+        </p>
+      </div>
+
+      <div class="sub-block" style="margin-top:10px;">
+        <div class="sub-title">2.2. “Hear” é perceber som, mesmo sem querer 👂</div>
+        <p class="example-line">
+          🇧🇷 “Eu ouvi um barulho estranho na rua.”  
+          ✅ <span class="good">I heard a strange noise in the street.</span>
+        </p>
+        <p class="example-line">
+          🇧🇷 “Você consegue me ouvir?” (perceber o som da voz)  
+          ✅ <span class="good">Can you hear me?</span>
+        </p>
+        <p style="margin-top:4px;">
+          Aqui não é “presta atenção em mim?”, é “o áudio está chegando?”, então é <strong>hear</strong>.
+        </p>
+      </div>
+
+      <div class="sub-block" style="margin-top:10px;">
+        <div class="sub-title">2.3. Quando LISTEN, quando HEAR? Regra do “intencional x automático” ⚖️</div>
+        <p class="example-line">
+          👉 Se a pergunta em português é “<strong>você está prestando atenção?</strong>” → use <span class="good">LISTEN</span>.
+        </p>
+        <p class="example-line">
+          👉 Se a pergunta é “<strong>o som está chegando?</strong>” → use <span class="good">HEAR</span>.
+        </p>
+        <p style="margin-top:6px;">
+          Experimente falar em voz alta:
+        </p>
+        <p class="example-line">
+          🔊
+          <button class="play-btn" onclick="speak('Can you hear me? Are you listening to me?')">
+            Ouvir frase
+          </button>
+          <br>
+          <span class="example-en">“Can you hear me? Are you listening to me?”</span><br>
+          <span class="example-pt">“Você consegue me ouvir? Você está prestando atenção em mim?”</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- PATTERNS TAB -->
+    <div class="card-inner" id="tab-patterns" style="display:none;">
+      <h2 class="section-title">3. Padrões simples – mapa mental 🧩</h2>
+      <p class="section-sub">
+        Guarde estes padrões na cabeça. Leia em voz alta em inglês e veja o comentário em português logo abaixo.
+      </p>
+
+      <div class="two-cols" style="margin-top:8px;">
+        <div class="sub-block">
+          <div class="sub-title">3.1. Padrões com HEAR 👂</div>
+          <p class="example-line">
+            ✅ <span class="good">I can’t hear you.</span><br>
+            <span class="example-pt">Não estou ouvindo você (o som não chega).</span>
+          </p>
+          <p class="example-line">
+            ✅ <span class="good">I heard a noise.</span><br>
+            <span class="example-pt">Eu ouvi um barulho (sem planejar).</span>
+          </p>
+          <p class="example-line">
+            ✅ <span class="good">Did you hear that?</span><br>
+            <span class="example-pt">Você ouviu isso? (barulho, notícia, fofoca).</span>
+          </p>
+        </div>
+
+        <div class="sub-block">
+          <div class="sub-title">3.2. Padrões com LISTEN 🎧</div>
+          <p class="example-line">
+            ✅ <span class="good">I’m listening to music.</span><br>
+            <span class="example-pt">Estou ouvindo música (por escolha, prestando atenção).</span>
+          </p>
+          <p class="example-line">
+            ✅ <span class="good">Listen to me.</span><br>
+            <span class="example-pt">Me escuta (presta atenção no que eu digo).</span>
+          </p>
+          <p class="example-line">
+            ✅ <span class="good">I like to listen to podcasts at home.</span><br>
+            <span class="example-pt">Eu gosto de ouvir podcasts em casa.</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="sub-block" style="margin-top:10px;">
+        <div class="sub-title">3.3. Frase-resumo para decorar 🧠</div>
+        <p class="example-line">
+          🇬🇧 <span class="good">You HEAR with your ears, but you LISTEN with your brain and your heart.</span>
+        </p>
+        <p class="example-pt">
+          🇧🇷 “Você HEAR com os ouvidos, mas LISTEN com o cérebro e com o coração.”
+        </p>
+        <button class="play-btn" onclick="speak('You hear with your ears, but you listen with your brain and your heart.')">
+          🔊 Ouvir frase-resumo
+        </button>
+      </div>
+    </div>
+
+    <!-- SITUATIONS TAB -->
+    <div class="card-inner" id="tab-situations" style="display:none;">
+      <h2 class="section-title">4. Situações reais – viva o HEAR x LISTEN 🎬</h2>
+      <p class="section-sub">
+        Clique em cada cartão, <strong>ouça</strong> a frase em inglês e tente repetir.  
+        Vou misturar português nas explicações para ficar mais vivo.
+      </p>
+
+      <div class="situations-grid">
+        <!-- 1 -->
+        <div class="situation-card" onclick="speak('Can you hear me? I think the connection is bad.')">
+          <strong>1. Chamada de vídeo com problema de áudio 💻</strong>
+          <div class="example-en">
+            “<span class='good'>Can you hear me?</span> I think the connection is bad.”
+          </div>
+          <div class="example-pt">
+            “Você consegue me ouvir? Acho que a conexão está ruim.”
+          </div>
+          <div class="sit-context">
+            (Você só quer saber se o som chega. Então é HEAR.)
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="situation-card" onclick="speak('Listen to me, this is really important.')">
+          <strong>2. Conversa séria com o filho 👨‍👦</strong>
+          <div class="example-en">
+            “<span class='good'>Listen to me</span>, this is really important.”
+          </div>
+          <div class="example-pt">
+            “Escuta o que eu estou dizendo, isso é realmente importante.”
+          </div>
+          <div class="sit-context">
+            (Aqui não é som, é atenção. LISTEN TO.)
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="situation-card" onclick="speak('I usually listen to music when I\\'m at work.')">
+          <strong>3. Trabalhando com fone de ouvido 🎧 + 💼</strong>
+          <div class="example-en">
+            “I usually <span class='good'>listen to music</span> when I’m <span class='good'>at work</span>.”
+          </div>
+          <div class="example-pt">
+            “Eu geralmente escuto música quando estou no trabalho.”
+          </div>
+          <div class="sit-context">
+            (Você escolhe ouvir música enquanto trabalha.)
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="situation-card" onclick="speak('Last night I heard a dog barking outside my house.')">
+          <strong>4. Barulho na rua à noite 🐕🌙</strong>
+          <div class="example-en">
+            “Last night I <span class='good'>heard</span> a dog barking outside my house.”
+          </div>
+          <div class="example-pt">
+            “Ontem à noite eu ouvi um cachorro latindo do lado de fora da minha casa.”
+          </div>
+          <div class="sit-context">
+            (Você não planejou, apenas HEARD o barulho.)
+          </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="situation-card" onclick="speak('I\\'m sorry, I wasn\\'t listening. Can you say that again?')">
+          <strong>5. Perdido na reunião 😵‍💫</strong>
+          <div class="example-en">
+            “I’m sorry, I wasn’t <span class='good'>listening</span>. Can you say that again?”
+          </div>
+          <div class="example-pt">
+            “Desculpa, eu não estava prestando atenção. Você pode dizer isso de novo?”
+          </div>
+          <div class="sit-context">
+            (“Não estava atento”, não “não ouvi o som”.)
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="situation-card" onclick="speak('Do you like to listen to podcasts at home?')">
+          <strong>6. Conversa com amigo sobre hábitos 🎙️</strong>
+          <div class="example-en">
+            “Do you like to <span class='good'>listen to podcasts</span> at home?”
+          </div>
+          <div class="example-pt">
+            “Você gosta de ouvir podcasts em casa?”
+          </div>
+          <div class="sit-context">
+            (Hábito de prestar atenção em conteúdo.)
+          </div>
+        </div>
+
+        <!-- 7 -->
+        <div class="situation-card" onclick="speak('I can hear the neighbors arguing, but I\\'m trying not to listen.')">
+          <strong>7. Vizinhos brigando 😬</strong>
+          <div class="example-en">
+            “I can <span class='good'>hear</span> the neighbors arguing, but I’m trying not to <span class='good'>listen</span>.”
+          </div>
+          <div class="example-pt">
+            “Eu consigo ouvir os vizinhos brigando, mas estou tentando não escutar (não prestar atenção).”
+          </div>
+          <div class="sit-context">
+            (O som chega = hear; você evita prestar atenção = listen.)
+          </div>
+        </div>
+
+        <!-- 8 -->
+        <div class="situation-card" onclick="speak('I heard that you got a new job. Congratulations!')">
+          <strong>8. Fofoca/Notícia boa 🎉</strong>
+          <div class="example-en">
+            “I <span class='good'>heard</span> that you got a new job. Congratulations!”
+          </div>
+          <div class="example-pt">
+            “Eu ouvi dizer que você conseguiu um novo emprego. Parabéns!”
+          </div>
+          <div class="sit-context">
+            (HEARD = soube, ouvi falar – não é prestar atenção em áudio.)
+          </div>
+        </div>
+
+        <!-- 9 -->
+        <div class="situation-card" onclick="speak('Listen to this song, it\\'s amazing!')">
+          <strong>9. Mostrando uma música favorita 🎵</strong>
+          <div class="example-en">
+            “<span class='good'>Listen to</span> this song, it’s amazing!”
+          </div>
+          <div class="example-pt">
+            “Escuta essa música, ela é maravilhosa!”
+          </div>
+          <div class="sit-context">
+            (Você quer que a pessoa foque na música.)
+          </div>
+        </div>
+
+        <!-- 10 -->
+        <div class="situation-card" onclick="speak('I couldn\\'t hear anything, the traffic was too loud.')">
+          <strong>10. Trânsito barulhento 🚗</strong>
+          <div class="example-en">
+            “I couldn’t <span class='good'>hear</span> anything, the traffic was too loud.”
+          </div>
+          <div class="example-pt">
+            “Eu não conseguia ouvir nada, o trânsito estava muito barulhento.”
+          </div>
+          <div class="sit-context">
+            (O problema é o som, não a atenção.)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WRITE TAB -->
+    <div class="card-inner" id="tab-write" style="display:none;">
+      <h2 class="section-title">5. Escreva & traduza – treine HEAR x LISTEN ✍️</h2>
+      <p class="section-sub">
+        Agora é você que escreve. Misture inglês e português na sua cabeça, mas escreva as frases em inglês.
+      </p>
+
+      <div class="sub-block">
+        <div class="sub-title">5.1. Traduza usando HEAR ou LISTEN (com TO se precisar!)</div>
+        <p class="write-prompt">
+          Escreva em <strong>inglês</strong> aqui embaixo:
+        </p>
+        <ol style="font-size:0.9rem;line-height:1.6;margin-left:18px;margin-bottom:8px;">
+          <li>Você consegue me ouvir?</li>
+          <li>Escuta, isso é importante.</li>
+          <li>Ontem eu ouvi um barulho estranho.</li>
+          <li>Eu gosto de ouvir música em casa.</li>
+          <li>Desculpa, eu não estava prestando atenção.</li>
+        </ol>
+        <textarea id="write-area" placeholder="Escreva suas frases aqui usando HEAR ou LISTEN TO corretamente..."></textarea>
+        <div class="char-counter" id="char-counter">0 caracteres</div>
+
+        <div class="sub-block" style="margin-top:10px;">
+          <div class="sub-title">5.2. Gabarito mental (não traduza agora, só cheque depois) 🧠</div>
+          <p style="font-size:0.85rem;line-height:1.5;">
+            Dica rápida (sem dar todas as respostas):  
+            1 → HEAR • 2 → LISTEN TO • 3 → HEARD • 4 → LISTEN TO • 5 → LISTENING  
+            Depois de escrever, volte aqui e confira se faz sentido com essas pistas.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRACTICE TAB -->
+    <div class="card-inner" id="tab-practice" style="display:none;">
+      <h2 class="section-title">6. Prática de fala – coloque na boca 🎙️</h2>
+      <p class="section-sub">
+        Leia, ouça e repita. Use o botão de “prática” como gatilho mental: durante 30 segundos você só fala HEAR x LISTEN em voz alta.
+      </p>
+
+      <div class="sub-block">
+        <div class="sub-title">6.1. Mantra HEAR x LISTEN</div>
+        <p style="margin-bottom:4px;">
+          Repita 3 vezes:
+        </p>
+        <p class="example-en">
+          “Can you <span class="good">hear</span> me?” • “Are you <span class="good">listening</span> to me?”
+        </p>
+        <p class="example-pt">
+          “Você consegue me ouvir?” • “Você está prestando atenção em mim?”
+        </p>
+        <button class="play-btn" onclick="speak('Can you hear me? Are you listening to me? Can you hear me? Are you listening to me? Can you hear me? Are you listening to me?')">
+          🔊 Ouvir 3x e repetir
+        </button>
+      </div>
+
+      <div class="sub-block" style="margin-top:10px;">
+        <div class="sub-title">6.2. Crie 3 frases suas (misture vida real)</div>
+        <p style="font-size:0.9rem;line-height:1.6;">
+          Pense em situações da sua vida:  
+          • em casa 🏠 (at home) • no trabalho 💼 (at work) • na rua 🚶‍♂️  
+          Crie 3 frases usando HEAR e 3 frases usando LISTEN TO.  
+          Fale em voz alta e, se quiser, anote na aba anterior. 
+        </p>
+      </div>
+
+      <div class="practice-row">
+        <button class="record-btn" id="record-btn" onclick="toggleRecord()">
+          <span id="record-dot">⏺️</span>
+          <span id="record-text">Marcar momento de prática</span>
+        </button>
+
+        <div class="audio-wrapper">
+          <div id="audio-status" class="no-audio">
+            Nenhum áudio real é gravado aqui – é só um botão para você se comprometer a falar em voz alta por 30 segundos. 🎧
+          </div>
+          <button class="delete-btn" onclick="resetPractice()">Resetar status de prática</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer nav -->
+    <div class="footer-nav">
+      <button class="secondary-btn" onclick="prevTab()">
+        ⬅️ Voltar aba
+      </button>
+      <button class="primary-btn" onclick="nextTab()">
+        Próxima aba ➡️
+      </button>
+    </div>
+
+    <div class="export-bar">
+      <span>📋 Copiar para planilha:</span>
+      <button class="small-btn" onclick="copyToSpreadsheet()">
+        Texto da lição
+      </button>
+      <span>• 📄 PDF: use o botão “Exportar em PDF” no topo.</span>
+    </div>
+
+    <footer class="footer-meta">
+      Criado para o app futurista <span class="brand">NEXTATION</span> – HEAR x LISTEN do jeito que o cérebro brasileiro entende. 🚀
+    </footer>
+  </main>
+</div>
+
+<script>
+  // Tabs handling
+  const tabOrder = ['overview','why','patterns','situations','write','practice'];
+  function showTab(id){
+    document.querySelectorAll('.card-inner').forEach(el=>el.style.display='none');
+    document.getElementById('tab-'+id).style.display='block';
+    document.querySelectorAll('.tab').forEach(t=>{
+      t.classList.remove('active');
+      if(t.dataset.tab===id) t.classList.add('active','completed');
+    });
+  }
+  function nextTab(){
+    const active = document.querySelector('.tab.active');
+    const idx = tabOrder.indexOf(active.dataset.tab);
+    if(idx < tabOrder.length-1){
+      showTab(tabOrder[idx+1]);
+    }
+  }
+  function prevTab(){
+    const active = document.querySelector('.tab.active');
+    const idx = tabOrder.indexOf(active.dataset.tab);
+    if(idx > 0){
+      showTab(tabOrder[idx-1]);
+    }
+  }
+
+  // Speech playback
+  function speak(text){
+    if(!('speechSynthesis' in window)) {
+      alert('Seu navegador não suporta síntese de voz (SpeechSynthesis).');
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'en-US';
+    utter.rate = 0.98;
+    utter.pitch = 1.0;
+    window.speechSynthesis.speak(utter);
+  }
+
+  // Writing area counter
+  const writeArea = document.getElementById('write-area');
+  const counterEl = document.getElementById('char-counter');
+  if(writeArea){
+    writeArea.addEventListener('input', ()=>{
+      const len = writeArea.value.length;
+      counterEl.textContent = len + ' caracteres';
+    });
+  }
+
+  // Practice "record" simulation
+  let recording = false;
+  function toggleRecord(){
+    recording = !recording;
+    const btn = document.getElementById('record-btn');
+    const txt = document.getElementById('record-text');
+    const dot = document.getElementById('record-dot');
+    const status = document.getElementById('audio-status');
+    if(recording){
+      btn.classList.add('recording');
+      dot.textContent = '🔴';
+      txt.textContent = 'Praticando agora...';
+      status.textContent = 'Momento de prática marcado: fale suas frases com HEAR e LISTEN em voz alta por pelo menos 30 segundos.';
+    }else{
+      btn.classList.remove('recording');
+      dot.textContent = '⏺️';
+      txt.textContent = 'Marcar momento de prática';
+      status.textContent = 'Prática pausada. Quando quiser focar de novo, clique e fale em voz alta.';
+    }
+  }
+  function resetPractice(){
+    recording = false;
+    const btn = document.getElementById('record-btn');
+    const txt = document.getElementById('record-text');
+    const dot = document.getElementById('record-dot');
+    const status = document.getElementById('audio-status');
+    btn.classList.remove('recording');
+    dot.textContent = '⏺️';
+    txt.textContent = 'Marcar momento de prática';
+    status.textContent = 'Nenhum áudio real é gravado – use o botão como compromisso de prática em voz alta. 🎧';
+  }
+
+  // Copy text to clipboard for spreadsheet
+  function copyToSpreadsheet(){
+    const text = collectLessonText();
+    navigator.clipboard.writeText(text).then(()=>{
+      alert('Conteúdo copiado! Agora cole (Ctrl+V) na sua planilha.');
+    }).catch(()=>{
+      alert('Não foi possível copiar automaticamente. Selecione o texto manualmente.');
+    });
+  }
+
+  function collectLessonText(){
+    const blocks = [];
+    document.querySelectorAll('.card-inner').forEach(inner=>{
+      const clone = inner.cloneNode(true);
+      clone.querySelectorAll('button').forEach(b=>b.remove());
+      clone.querySelectorAll('.pill-tag').forEach(p=>p.remove());
+      blocks.push(clone.innerText.trim());
+    });
+    return blocks.join('\n\n-----------------------------\n\n');
+  }
+</script>
+</body>
+</html>
